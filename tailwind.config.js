@@ -9,7 +9,10 @@ module.exports = {
         info: '#2196f3',
         danger: '#f44336',
         warning: '#ff9800',
-      }
+      },
+      transitionProperty: {
+        'show': 'height opacity max-height',
+      },
     },
   },
   plugins: [],
