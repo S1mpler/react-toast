@@ -3,6 +3,11 @@ import { AlertTriangle, Check, Info } from "lucide-react";
 
 const DEFAULT_TOAST_DURATION_IN_SECONDS = 6;
 
+/**
+ * Factory function for creating toasts of different types.
+ * @param type - The type of toast: 'success', 'warning', or 'danger'.
+ * @returns A function that creates a toast of the specified type.
+ */
 export const toastFactory = (type: 'success' | 'warning' | 'danger'): ToastCreator => ({
   success: new SuccessToastCreator(),
   warning: new WarningToastCreator(),
@@ -10,6 +15,10 @@ export const toastFactory = (type: 'success' | 'warning' | 'danger'): ToastCreat
 }[type]);
 
 abstract class ToastCreator {
+  /**
+   * Abstract function to create a toast of the specified type.
+   * @param props - The configuration for creating the toast.
+   */
   public abstract createToast(props: CreateToast): Toast;
 }
 
