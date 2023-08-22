@@ -26,6 +26,9 @@ title?: string; // Defaults to type
 duration?: number; // Defaults to 6 seconds
 ```
 
+## Tech-stack
+React, TypeScript, Tailwind, Lucide Icons.
+
 ## Realization
 To implement the Toast Service I used **Factory Method** design pattern. It's illustrated on the diagram below:
 <img width="471" alt="Screenshot 2023-08-22 at 13 39 47" src="https://github.com/S1mpler/react-toast/assets/6653492/f50af8a5-49ec-40bc-bd1a-c4f7c6ff05cb">
