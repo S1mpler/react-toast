@@ -1,7 +1,8 @@
 import { createContext } from "react";
+import { CreateToast } from "./types/toast";
 
 type ToastContextType = {
-  showToast: (message: string, type: 'warning' | 'success' | 'danger', duration?: number) => void;
+  showToast: (toast: CreateToast) => void;
   hideToast: (toastId: string) => void;
 }
 

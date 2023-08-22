@@ -1,29 +1,15 @@
 import { PropsWithChildren, useEffect, useRef, useState } from "react";
 import { ToastContext } from './toast-context';
-import { Toast, ToastProps } from "./Toast";
-
-type ToastInfo = Pick<ToastProps, 'id' | 'message' | 'type' | 'duration'>;
-
-// Toast factory function
-const createToast = (message: string, duration: number, type: 'warning' | 'success' | 'danger'): ToastInfo => {
-  return { id: crypto.randomUUID(), message, type, duration };
-};
-
-// Toast strategies
-const toastStrategies = {
-  warning: (message: string, duration: number) => createToast(message, duration, 'warning'),
-  success: (message: string, duration: number) => createToast(message, duration, 'success'),
-  danger: (message: string, duration: number) => createToast(message, duration, 'danger'),
-};
-
-const DEFAULT_TOAST_DURATION_IN_SECONDS = 6;
+import { toastFactory } from "./toast-factory";
+import { CreateToast, Toast as ToastType } from "./types/toast";
+import { Toast } from "./Toast";
 
 export const ToastProvider = ({ children }: PropsWithChildren) => {
   const toastsContainerRef = useRef<HTMLDivElement>(null);
-  const [toasts, setToasts] = useState<ToastInfo[]>([]);
+  const [toasts, setToasts] = useState<ToastType[]>([]);
 
-  const showToast = (message: string, type: 'warning' | 'success' | 'danger', duration = DEFAULT_TOAST_DURATION_IN_SECONDS) => {
-    const newToast = toastStrategies[type](message, duration);
+  const showToast = (toast: CreateToast): void => {
+    const newToast = toastFactory(toast.type).createToast(toast);
     setToasts([newToast, ...toasts]);
   };
 
@@ -31,7 +17,6 @@ export const ToastProvider = ({ children }: PropsWithChildren) => {
     setToasts(prev => prev.filter(toast => toast.id !== toastId));
   };
 
-  // Function to scroll the element to the bottom
   const scrollToBottom = () => {
     if (toastsContainerRef?.current) {
       const scrollContainer = toastsContainerRef.current;
@@ -39,7 +24,6 @@ export const ToastProvider = ({ children }: PropsWithChildren) => {
     }
   };
 
-  // Scroll to the bottom when the component mounts or updates
   useEffect(() => {
     scrollToBottom();
   }, [toasts]);

@@ -1,63 +1,38 @@
-import { AlertTriangle, Check, Info, X } from "lucide-react";
+import { X } from "lucide-react";
 import { CircleProgressBar } from "../../components/CircleProgressBar";
+import { Toast as ToastType } from "./types/toast";
+import { useEffect , useState} from 'react';
 
-export type ToastProps = {
-  id: string;
-  message: string;
-  type: 'warning' | 'success' | 'danger';
-  duration: number;
+export type ToastProps = ToastType & {
   complete: () => void;
 };
 
-export const Toast = ({ message, type, duration, complete }: ToastProps) => {
-  const toastName = {
-    warning: 'Warning',
-    success: 'Success',
-    danger: 'Danger',
-  }[type];
+export const Toast = (props: ToastProps) => {
+  const [shown, setShown] = useState(false);
 
-  const icon = {
-    warning: <Info className="text-yellow-600" size={20} />,
-    success: <Check className="text-green-600" size={20} />,
-    danger: <AlertTriangle className="text-red-600" size={20} />,
-  }[type];
+  useEffect(() => {
+    setShown(true);
 
-  const color ={
-    warning: 'text-yellow-700',
-    success: 'text-green-700',
-    danger: 'text-red-700',
-  }[type];
-
-  const bgColor ={
-    warning: 'bg-yellow-100',
-    success: 'bg-green-100',
-    danger: 'bg-red-100',
-  }[type];
-
-  // const classNames = {
-  //   appear: "opacity-0",
-  //   appearActive: "transition-opacity duration-300 opacity-100",
-  //   enter: "opacity-0",
-  //   enterActive: "transition-opacity duration-300 opacity-100",
-  //   // exit: "opacity-100",  // this breaks the exit transition
-  //   exitActive: "transition-opacity duration-200 opacity-0",
-  // };
+    return () => {
+      setShown(false);
+    }
+  }, []);
 
   return (
-    <div className={`w-full h-auto rounded-lg px-4 py-3 ${bgColor}`} >
-      <div className="flex justify-between">
-        <h2 className="truncate text-lg font-bold flex items-center gap-3">
-          {icon}
-          <span className={color}>{toastName}</span>
+    <div className={`transition-show ${shown ? 'px-4 py-3 h-full opacity-100' : 'p-2 h-0 max-h-0 opacity-50'} duration-300 overflow-y-hidden w-full rounded-lg ${props.color.background}`} >
+      <div className={`flex justify-between transition-opacity delay-400 ${shown ? 'opacity-100' : 'opacity-0'}`}>
+        <h2 className={`truncate text-lg font-bold flex gap-3 items-center ${props.color.text}`}>
+          <span>{props.icon}</span>
+          <div className="truncate pr-3">{props.title}</div>
         </h2>
-        <div className="relative w-8 h-8 flex justify-center items-center cursor-pointer" onClick={() => complete()}>
+        <div className="relative w-8 h-8 flex justify-center items-center cursor-pointer" onClick={() => props.complete()}>
           <X size={16}/>
           <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 -rotate-90">
-            <CircleProgressBar size={8} duration={duration} complete={() => complete()}></CircleProgressBar>
+            <CircleProgressBar size={8} duration={props.duration} complete={() => props.complete()}></CircleProgressBar>
           </div>
         </div>
       </div>
-      <p>{message}</p>
+      <p className={`transition-opacity delay-400 ${shown ? 'opacity-100' : 'opacity-0'}`}>{props.message}</p>
     </div>
   )
 };
