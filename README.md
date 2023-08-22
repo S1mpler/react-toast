@@ -27,7 +27,44 @@ duration?: number; // Defaults to 6 seconds
 ```
 
 ## Realization
+To implement the Toast Service I used **Factory Method** design pattern. It's illustrated on the diagram below:
+<img width="471" alt="Screenshot 2023-08-22 at 13 39 47" src="https://github.com/S1mpler/react-toast/assets/6653492/f50af8a5-49ec-40bc-bd1a-c4f7c6ff05cb">
 
+The factory function is presented in the following manner and is located as an auxiliary export within the factory file:
+```
+/**
+ * Factory function for creating toasts of different types.
+ * @param type - The type of toast: 'success', 'warning', or 'danger'.
+ * @returns A function that creates a toast of the specified type.
+ */
+export const toastFactory = (type: 'success' | 'warning' | 'danger'): ToastCreator => ({
+  success: new SuccessToastCreator(),
+  warning: new WarningToastCreator(),
+  danger: new DangerToastCreator(),
+}[type]);
+```
+
+This factory function is invoked within the ToastProvider context when the showToast method is triggered:
+```
+/**
+ * Display a new toast using the specified toast creation configuration.
+ * @param toast - The configuration for creating the toast.
+ */
+const showToast = (toast: CreateToast): void => {
+  const newToast = toastFactory(toast.type).createToast(toast);
+  setToasts([newToast, ...toasts]);
+};
+```
+
+Employing the **Factory Method** design pattern in this context offers several advantageous outcomes. By encapsulating the toast creation logic within the toastFactory function, the codebase benefits from enhanced maintainability, flexibility, and scalability.
+
+Firstly, the Factory Method pattern abstracts away the complexities of object instantiation from the client code, promoting a more organized and modular structure. This separation of concerns facilitates easier maintenance and debugging, as modifications to toast creation or the addition of new toast types can be confined within the factory function without necessitating changes throughout the application.
+
+Secondly, this approach affords remarkable flexibility. The ability to dynamically select and create different toast types based on the type parameter fosters a clear separation between the client code and the specifics of each toast implementation. This separation streamlines testing and promotes reusability, as changes or additions to toast types can be implemented without affecting other components.
+
+Furthermore, the Factory Method pattern accommodates scalability with ease. Should the need arise to introduce additional toast types or modify the existing ones, the factory function can be updated without compromising the existing codebase. This adaptability is especially valuable in dynamic software projects where requirements might evolve over time.
+
+In summary, leveraging the Factory Method design pattern in this scenario enhances the clarity, modularity, and adaptability of the code. It empowers developers to efficiently manage toast creation, fostering a more maintainable and extensible codebase while keeping the ToastProvider abstracted from the intricate details of each toast type's implementation.
 
 ## Available Scripts
 
