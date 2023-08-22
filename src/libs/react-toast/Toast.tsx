@@ -19,7 +19,7 @@ export const Toast = (props: ToastProps) => {
   }, []);
 
   return (
-    <div className={`transition-show ${shown ? 'px-4 py-3 h-full opacity-100' : 'p-2 h-0 max-h-0 opacity-50'} duration-300 overflow-y-hidden w-full rounded-lg ${props.color.background}`} >
+    <div className={`transition-show ${shown ? 'py-3 h-full opacity-100' : 'py-2 h-0 max-h-0 opacity-50'} px-4 duration-300 overflow-y-hidden w-full rounded-lg ${props.color.background}`} >
       <div className={`flex justify-between transition-opacity delay-400 ${shown ? 'opacity-100' : 'opacity-0'}`}>
         <h2 className={`truncate text-lg font-bold flex gap-3 items-center ${props.color.text}`}>
           <span>{props.icon}</span>
