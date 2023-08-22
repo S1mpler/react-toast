@@ -1,6 +1,33 @@
-# Getting Started with Create React App
+# React Toast Hook
+Introducing an advanced React toast service meticulously engineered to orchestrate the presentation and administration of notification toast messages on the client's viewport. This refined solution empowers users with granular control over the rendering and engagement of these pivotal notifications, thereby elevating the prevailing user experience.
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+## Demo
+
+https://react-toast-rho.vercel.app/
+
+## Usage
+
+```
+const { showToast } = useToast();
+
+showToast({ message: 'Toast message', type: 'success' });
+showToast({ message: 'Toast message', type: 'warning' });
+showToast({ message: 'Toast message', type: 'danger' });
+```
+
+## API
+
+Here are the available options for the `showToast` method:
+
+```
+type: 'success' | 'warning' | 'danger';
+message: string;
+title?: string; // Defaults to type
+duration?: number; // Defaults to 6 seconds
+```
+
+## Realization
+
 
 ## Available Scripts
 
