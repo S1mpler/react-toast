@@ -8,15 +8,26 @@ export const ToastProvider = ({ children }: PropsWithChildren) => {
   const toastsContainerRef = useRef<HTMLDivElement>(null);
   const [toasts, setToasts] = useState<ToastType[]>([]);
 
+  /**
+   * Display a new toast using the specified toast creation configuration.
+   * @param toast - The configuration for creating the toast.
+   */
   const showToast = (toast: CreateToast): void => {
     const newToast = toastFactory(toast.type).createToast(toast);
     setToasts([newToast, ...toasts]);
   };
 
+  /**
+   * Hide the toast with the specified ID.
+   * @param toastId - The ID of the toast to hide.
+   */
   const hideToast = (toastId: string) => {
     setToasts(prev => prev.filter(toast => toast.id !== toastId));
   };
 
+  /**
+   * Scroll to the bottom of the toasts container.
+   */
   const scrollToBottom = () => {
     if (toastsContainerRef?.current) {
       const scrollContainer = toastsContainerRef.current;
@@ -25,6 +36,7 @@ export const ToastProvider = ({ children }: PropsWithChildren) => {
   };
 
   useEffect(() => {
+    // Scroll to the bottom of the toasts container when a new toast is added or a toast is removed.
     scrollToBottom();
   }, [toasts]);
 
