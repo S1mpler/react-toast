@@ -1,0 +1,11 @@
+.progress-ring {
+  transform: rotate(-90deg);
+  transform-origin: center;
+}
+
+.progress-ring-circle {
+  transition: stroke-dasharray 0.3s;
+  transform: rotate(90deg);
+  transform-origin: center;
+  stroke-dasharray: 0, 1000; /* Default value, will be updated with progress */
+}
